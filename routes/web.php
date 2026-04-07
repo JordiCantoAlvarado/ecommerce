@@ -10,6 +10,5 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/admin', function () {
-    return view('admin.index');
-});
+Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index')
+->middleware('auth');
