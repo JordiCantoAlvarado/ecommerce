@@ -69,7 +69,7 @@
                         <li class="sidebar-title">Menu</li>
                         
                         <li class="sidebar-item active ">
-                            <a href="index.html" class='sidebar-link'>
+                            <a href="{{ url('admin') }}" class='sidebar-link'>
                                 <i class="bi bi-house-fill"></i>
                                 <span>Inicio</span>
                             </a>
@@ -79,11 +79,17 @@
                         
                         <li class="sidebar-title">Ajustes</li>
 
+                        <li class="sidebar-item ">
+                            <a href="{{ url('/admin/ajustes') }}" class='sidebar-link'>
+                                <i class="bi bi-gear-fill"></i>
+                                <span>Configuración</span>
+                            </a>
+                        </li>
+
                         <li class="sidebar-item  has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-person-circle"></i>
-                                {{-- <span>{{ Auth::user()->name }}</span> --}}
-                                <span>NombreUsuario</span>
+                                <span>{{ Auth::user()->name }}</span>
                             </a>
                             
                             <ul class="submenu ">
