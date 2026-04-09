@@ -28,7 +28,8 @@
                     <h1 class="auth-title">Log in.</h1>
                     <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
 
-                    <form action="index.html">
+                    <form action="{{ route('login') }}" method="POST">
+                        @csrf
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
