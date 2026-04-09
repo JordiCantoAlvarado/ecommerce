@@ -12,7 +12,10 @@ class AjusteController extends Controller
      */
     public function index()
     {
-        return view('admin.ajustes.index');
+        $divisas = file_get_contents(resource_path('js/divisas.json'));
+        $divisas = json_decode($divisas, true);
+        
+        return view('admin.ajustes.index', compact('divisas'));
     }
 
     /**
