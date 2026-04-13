@@ -89,7 +89,7 @@ class AjusteController extends Controller
         }
         $ajuste->save();
 
-        return redirect()->route('admin.ajustes.index');
+        return redirect()->route('admin.ajustes.index')->with('success', 'Cambios guardados correctamente.');
     }
 
     /**

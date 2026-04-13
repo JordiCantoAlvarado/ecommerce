@@ -5,6 +5,12 @@
 <div class="page-heading">
     <h3>Ajustes del sistema</h3>
 </div> 
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+@endif
 <div class="page-content">
     <div class="row">
         <div class="col-md-12">
