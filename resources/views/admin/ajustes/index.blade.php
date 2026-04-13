@@ -180,11 +180,11 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="logo" class="form-label">* Logo</label>
+                                            <label for="logo" class="form-label">@if(!isset($ajuste))*@endif Logo</label>
                                             <div class="input-group">
                                                 <span class="input-group-text align-items-start"><i class="bi bi-image"></i></span>
                                                 <input type="file" name="logo" id="logo" class="form-control @error('logo') is-invalid @enderror"
-                                                accept="image/*" onchange="mostrarImagenLogo(event)" required>
+                                                accept="image/*" onchange="mostrarImagenLogo(event)" @if(!isset($ajuste)) required @endif>
                                                 @error('logo')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -192,7 +192,11 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        @if(isset($ajuste->logo) && $ajuste->logo)
+                                        <img id="preview_logo" style="max-width: 100%; margin-bottom: 10px;" src="{{ asset('storage/'.$ajuste->logo) }}">
+                                        @else
                                         <img id="preview_logo" style="max-width: 100%; margin-bottom: 10px;" src="">
+                                        @endif
                                         <script>
                                             const mostrarImagenLogo = (e)=>{
                                                 document.getElementById('preview_logo').src = URL.createObjectURL(e.target.files[0]);
@@ -204,11 +208,11 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="imagen_login" class="form-label">* Imagen de Login</label>
+                                            <label for="imagen_login" class="form-label">@if(!isset($ajuste))*@endif Imagen de Login</label>
                                             <div class="input-group">
                                                 <span class="input-group-text align-items-start"><i class="bi bi-camera"></i></span>
                                                 <input type="file" name="imagen_login" id="imagen_login" class="form-control @error('imagen_login') is-invalid @enderror"
-                                                accept="image/*" onchange="mostrarImagenLogin(event)" required>
+                                                accept="image/*" onchange="mostrarImagenLogin(event)" @if(!isset($ajuste)) required @endif>
                                                 @error('imagen_login')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -216,7 +220,11 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        @if(isset($ajuste->imagen_login) && $ajuste->imagen_login)
+                                        <img id="preview_login" style="max-width: 100%; margin-bottom: 10px;" src="{{ asset('storage/'.$ajuste->imagen_login) }}">
+                                        @else
                                         <img id="preview_login" style="max-width: 100%; margin-bottom: 10px;" src="">
+                                        @endif
                                         <script>
                                             const mostrarImagenLogin = (e)=>{
                                                 document.getElementById('preview_login').src = URL.createObjectURL(e.target.files[0]);

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Ajuste;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AjusteController extends Controller
 {
@@ -32,7 +34,9 @@ class AjusteController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $ajuste = Ajuste::first();
+
+        $rules = [
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|max:255',
             'sucursal' => 'required|string|max:255',
@@ -43,9 +47,26 @@ class AjusteController extends Controller
             'email' => 'required|email|max:255',
             'divisa' => 'required|string|max:10',
             'pagina_web' => 'nullable|url|max:255',
-        ]);
+        ];
+        if($request->filled('pagina_web')){ //* En caso de que venga sin el protocolo se le añadira el HTTPS por defecto.
+            $url = trim($request->pagina_web);
+            if(!Str::startsWith($url, ['https://', 'http://'])){
+                $url = 'https://'.$url;
+            }
 
-        $ajuste = new Ajuste();
+            $request->merge([
+                'pagina_web' => $url,
+            ]);
+        }
+        if($ajuste){
+            $rules['logo'] = 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+            $rules['imagen_login'] = 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+        }
+        $request->validate($rules);
+
+        if(!$ajuste){
+            $ajuste = new Ajuste();
+        }
         $ajuste->nombre = $request->nombre;
         $ajuste->descripcion = $request->descripcion;
         $ajuste->sucursal = $request->sucursal;
@@ -54,11 +75,21 @@ class AjusteController extends Controller
         $ajuste->email = $request->email;
         $ajuste->divisa = $request->divisa;
         $ajuste->pagina_web = $request->pagina_web;
-        $ajuste->logo = $request->file('logo')->store('logos', 'public');
-        $ajuste->imagen_login = $request->file('imagen_login')->store('imagenes_login', 'public');
+        if($request->hasFile('logo')){
+            if($ajuste->logo && Storage::disk('public')->exists($ajuste->logo)){
+                Storage::disk('public')->delete($ajuste->logo);
+            }
+            $ajuste->logo = $request->file('logo')->store('logos', 'public');
+        }
+        if($request->hasFile('imagen_login')){
+            if($ajuste->imagen_login && Storage::disk('public')->exists($ajuste->imagen_login)){
+                Storage::disk('public')->delete($ajuste->imagen_login);
+            }
+            $ajuste->imagen_login = $request->file('imagen_login')->store('imagenes_login', 'public');
+        }
         $ajuste->save();
 
-        // return response()->json($request->all());
+        return redirect()->route('admin.ajustes.index');
     }
 
     /**
