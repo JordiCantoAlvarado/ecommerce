@@ -15,7 +15,8 @@
                 </div>
                 <div class="card-body">
 
-                    <form action="">
+                    <form action="{{ url('/admin/ajustes/create') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                         <div class="row">
                             <div class="col-md-10">
 
@@ -28,7 +29,7 @@
                                                 <span class="input-group-text align-items-start"><i class="bi bi-building"></i></span>
                                                 <input type="text" name="nombre" id="nombre" class="form-control @error('nombre') is-invalid @enderror"
                                                 placeholder="Nombre de la empresa"
-                                                value="{{ old('nombre') }}" required>
+                                                value="{{ old('nombre', $ajuste->nombre ?? '') }}" autocomplete="off" required>
                                                 @error('nombre')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -44,7 +45,7 @@
                                                 <span class="input-group-text align-items-start"><i class="bi bi-tag"></i></span>
                                                 <input type="text" name="descripcion" id="descripcion" class="form-control @error('descripcion') is-invalid @enderror"
                                                 placeholder="Breve descripción de la actividad o sector"
-                                                value="{{ old('descripcion') }}" required>
+                                                value="{{ old('descripcion', $ajuste->descripcion ?? '') }}" autocomplete="off" required>
                                                 @error('descripcion')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -65,7 +66,7 @@
                                                 <span class="input-group-text align-items-start"><i class="bi bi-shop"></i></span>
                                                 <input type="text" name="sucursal" id="sucursal" class="form-control @error('sucursal') is-invalid @enderror"
                                                 placeholder="Ej: Casa matriz"
-                                                value="{{ old('sucursal') }}" required>
+                                                value="{{ old('sucursal', $ajuste->sucursal ?? '') }}" autocomplete="off" required>
                                                 @error('sucursal')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -81,7 +82,7 @@
                                                 <span class="input-group-text align-items-start"><i class="bi bi-geo-alt"></i></span>
                                                 <textarea type="direccion" name="direccion" id="direccion" class="form-control @error('direccion') is-invalid @enderror"
                                                 placeholder="Calle, número, ciudad y país"
-                                                rows="1" required>{{ old('direccion') }}</textarea>
+                                                rows="1" autocomplete="off" required>{{ old('direccion', $ajuste->direccion ?? '') }}</textarea>
                                                 @error('direccion')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -102,7 +103,7 @@
                                                 <span class="input-group-text align-items-start"><i class="bi bi-telephone"></i></span>
                                                 <input type="text" name="telefonos" id="telefonos" class="form-control @error('telefonos') is-invalid @enderror"
                                                 placeholder="Ej: +34 123456789, 123456789"
-                                                value="{{ old('telefonos') }}" required>
+                                                value="{{ old('telefonos', $ajuste->telefonos ?? '') }}" autocomplete="off" required>
                                                 @error('telefonos')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -118,7 +119,7 @@
                                                 <span class="input-group-text align-items-start"><i class="bi bi-envelope"></i></span>
                                                 <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror"
                                                 placeholder="Ej: info@miempresa.com"
-                                                value="{{ old('email') }}" required>
+                                                value="{{ old('email', $ajuste->email ?? '') }}" autocomplete="off" required>
                                                 @error('email')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -140,7 +141,7 @@
                                                 <select id="divisa" name="divisa" class="form-control">
                                                     <option value="">-- Seleccione una divisa --</option>
                                                     @foreach ($divisas as $divisa)
-                                                        <option value="{{ $divisa['code'] }}">
+                                                        <option value="{{ $divisa['code'] }}" {{ (old('divisa', $ajuste->divisa ?? '') == $divisa['code'])? 'selected' : '' }}>
                                                             {{ $divisa['name'] }} ({{ $divisa['symbol'] }})
                                                         </option>
                                                     @endforeach
@@ -160,7 +161,7 @@
                                                 <span class="input-group-text align-items-start"><i class="bi bi-globe"></i></span>
                                                 <input type="text" name="pagina_web" id="pagina_web" class="form-control @error('pagina_web') is-invalid @enderror"
                                                 placeholder="Ej: https://www.miempresa.com"
-                                                value="{{ old('pagina_web') }}">
+                                                value="{{ old('pagina_web', $ajuste->pagina_web ?? '') }}" autocomplete="off">
                                                 @error('pagina_web')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
